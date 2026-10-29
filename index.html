@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saskatchewan Wildfire &amp; Friendship Centre Map</title>
+  </head>
+  <body>
+    <div id="map"></div>
+    <aside id="panel">
+      <header>
+        <h1>Saskatchewan Wildfire Map</h1>
+        <button id="panel-toggle" aria-expanded="true" aria-controls="panel-body">Hide</button>
+      </header>
+      <div id="panel-body">
+        <div id="notices"></div>
+
+        <section>
+          <h2>Layers</h2>
+          <div id="layer-toggles"></div>
+        </section>
+
+        <section id="fire-filters">
+          <h2>Historical wildfires</h2>
+          <label>Active <output id="year-label"></output></label>
+          <div id="year-slider"></div>
+          <div class="row">
+            <button id="play" type="button">▶ Play</button>
+            <span class="hint">steps one year at a time</span>
+          </div>
+          <label>Minimum size <output id="size-label"></output></label>
+          <div id="size-slider"></div>
+          <p class="count"><output id="fire-count">0</output> fires shown</p>
+        </section>
+
+        <section id="weather-controls">
+          <h2>Fire weather (CWFIS)</h2>
+          <label for="weather-layer">Layer</label>
+          <select id="weather-layer"></select>
+          <label for="weather-date">Date</label>
+          <input id="weather-date" type="date" />
+          <img id="weather-legend" alt="Legend for the selected fire weather layer" />
+          <p class="hint">Source: Natural Resources Canada, Canadian Wildland Fire Information System.</p>
+        </section>
+      </div>
+    </aside>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
