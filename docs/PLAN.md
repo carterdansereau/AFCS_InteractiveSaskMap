@@ -27,7 +27,7 @@
 
 ## Useful tools
 
-- **ogr2ogr** (comes with QGIS): scripted, repeatable conversion from GeoPackage/shapefile to GeoJSON, with field selection and reprojection. See `scripts/clean_exports.py`.
+- **ogr2ogr** (comes with QGIS): scripted conversion from GeoPackage/shapefile to GeoJSON, useful if new layers are added later.
 - **mapshaper** (`npm i -g mapshaper` or mapshaper.org): simplify highways and polygons so files stay small without visible loss.
 - **tippecanoe + PMTiles**: if the fire or polygon data gets large, tippecanoe turns it into a single `.pmtiles` file that MapLibre reads directly from GitHub Pages, loading only what is on screen.
 - **geojson.io**: quick look at an exported file before adding it.
