@@ -8,14 +8,6 @@ The app loads these files at startup. Any that are missing are skipped with a no
 | `friendship_centres.geojson` | Friendship Centre locations | `FC` (name) |
 | `highways.geojson` | Road lines, drawn without a pop-up | none |
 
-Field names are set in `src/config.js`, so a layer with different names only needs that file changed.
+These files are now the source of truth; the original QGIS project is no longer used. To fix or add a Friendship Centre, edit `friendship_centres.geojson` directly (coordinates are `[longitude, latitude]`) or ask Claude.
 
-## Updating from QGIS
-
-Export each layer with **Export → Save Features As… → GeoJSON**, CRS **EPSG:4326**, then run:
-
-```bash
-python3 scripts/clean_exports.py fires.geojson friendship_centres.geojson highways.geojson
-```
-
-The script keeps only the fields listed above (so notes and other internal columns never reach the public site), drops the elevation value and writes the files here. It needs only Python 3.
+Field names are set in `src/config.js`.
