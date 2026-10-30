@@ -78,3 +78,24 @@ export const WEATHER = {
   defaultLayer: 'public:fdr',
   opacity: 0.6,
 };
+
+// Live fires reported by agencies (CWFIS "cwfif_national_activefires" layer, new CWFIF server).
+// The layer keeps every past status update as its own row; rows still in effect have a record_end in the future.
+export const ACTIVE_FIRES = {
+  wfsUrl: 'https://geoserver.cwfif.nrcan.gc.ca/geoserver/wfs',
+  typeName: 'public:cwfif_national_activefires',
+  agency: 'SK',
+  refreshMinutes: 10,
+  stages: {
+    OC: { label: 'Out of control', color: '#d7191c' },
+    BH: { label: 'Being held', color: '#fd8d3c' },
+    UC: { label: 'Under control', color: '#fed976' },
+  },
+  otherStageColor: '#9aa0a6',
+};
+
+// Satellite hotspots from the last 24 hours (legacy CWFIS server, drawn as a WMS image like the fire weather layer).
+export const HOTSPOTS = {
+  wmsUrl: 'https://cwfis.cfs.nrcan.gc.ca/geoserver/public/wms',
+  layer: 'public:hotspots_24h',
+};
