@@ -14,7 +14,7 @@
 
 - Legacy GeoServer `https://cwfis.cfs.nrcan.gc.ca/geoserver/public/wms` is up. `public:fdr` (fire danger) is time-enabled daily from 2018-01-01; `public:bui`, `public:dc`, `public:dmc`, `public:dsr` from 2024-01-01. `public:fwi` is listed in NRCan's data services guide. Each also has a `_current` variant.
 - New CWFIF GeoServer `https://geoserver.cwfif.nrcan.gc.ca/geoserver/wms` is up and serves hourly HRDPS layers such as `public:cffdrs_fwi25_hrdps_hour_fwi`, plus `public:NFDB_point` (fires ≥ 200 ha, 1970–2025). NRCan says all services will move here, so expect to switch the URL in `src/config.js` at some point.
-- Active fires (`public:cwfif_national_activefires`) and satellite hotspots (`public:hotspots_24h`) are listed in the same guide; not wired up yet.
+- Active fires (`public:cwfif_national_activefires`, new server) keep every past status update as its own row (190k rows), so the app filters to the current province's rows with `record_end` in the future and no prescribed burns. Satellite hotspots (`public:hotspots_24h`, legacy server) are drawn as a WMS image. See `src/live.js`.
 - WMS map images load in the browser without any server of our own. Clicking the raster to read values (GetFeatureInfo) or loading WFS features needs CORS, which is untested.
 
 ## Milestones

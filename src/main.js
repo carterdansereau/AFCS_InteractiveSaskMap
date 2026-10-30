@@ -7,6 +7,7 @@ import './style.css';
 import { MAP, VECTOR_LAYERS } from './config.js';
 import { addFires } from './fires.js';
 import { addWeather } from './weather.js';
+import { addActiveFires, addHotspots } from './live.js';
 import { loadGeoJSON, notice } from './util.js';
 
 maplibregl.setWorkerUrl(workerUrl);
@@ -82,6 +83,8 @@ map.on('load', async () => {
   added.push(await addFires(map, maplibregl));
   added.push(await addVectorLayer(centres));
   addWeather(map, map.getLayer('highways') ? 'highways' : undefined);
+  added.push(addHotspots(map, map.getLayer('fires') ? 'fires' : undefined));
+  added.push(await addActiveFires(map, maplibregl));
   for (const def of added.filter(Boolean).reverse()) addToggle(def);
 });
 
