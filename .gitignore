@@ -1,5 +1,5 @@
 node_modules/
 dist/
 .DS_Store
-# Raw QGIS exports before they are cleaned by scripts/prepare-data.sh
+# Raw QGIS exports before they are cleaned by scripts/clean_exports.py
 raw/
