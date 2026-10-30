@@ -10,27 +10,29 @@ export const MAP = {
   basemap: 'https://tiles.openfreemap.org/styles/positron',
 };
 
-// Field names match the National Fire Database (NFDB) point layer.
+// Field names match the cleaned fires.geojson (see scripts/clean_exports.py).
 // If your QGIS export renamed fields, change them here.
 export const FIRES = {
   url: 'data/fires.geojson',
   fields: {
-    year: 'YEAR',
-    reported: 'REP_DATE',
-    out: 'OUT_DATE',
-    size: 'SIZE_HA',
-    name: 'FIRENAME',
-    cause: 'CAUSE',
-    id: 'FIRE_ID',
+    year: 'year',
+    reported: 'rep_date',
+    out: 'out_date',
+    size: 'size_ha',
+    name: 'firename',
+    cause: 'cause',
+    id: 'fire_id',
   },
-  // Breaks (hectares) used for both circle size and colour.
+  causes: { N: 'Natural', H: 'Human', U: 'Unknown' },
+  // Breaks (hectares) used for both circle size and colour. The data only has fires of 200 ha or more.
   sizeClasses: [
-    { min: 0, label: '< 10 ha', color: '#fdd49e', radius: 2 },
-    { min: 10, label: '10–200 ha', color: '#fc8d59', radius: 3.5 },
-    { min: 200, label: '200–1,000 ha', color: '#ef6548', radius: 5 },
-    { min: 1000, label: '1,000–10,000 ha', color: '#d7301f', radius: 7 },
-    { min: 10000, label: '≥ 10,000 ha', color: '#7f0000', radius: 10 },
+    { min: 0, label: '< 1,000 ha', color: '#fdd49e', radius: 3.5 },
+    { min: 1000, label: '1,000–5,000 ha', color: '#fc8d59', radius: 5 },
+    { min: 5000, label: '5,000–20,000 ha', color: '#ef6548', radius: 7 },
+    { min: 20000, label: '20,000–100,000 ha', color: '#d7301f', radius: 9.5 },
+    { min: 100000, label: '≥ 100,000 ha', color: '#7f0000', radius: 13 },
   ],
+
 };
 
 export const VECTOR_LAYERS = [
@@ -45,7 +47,7 @@ export const VECTOR_LAYERS = [
       'circle-stroke-color': '#ffffff',
       'circle-stroke-width': 2,
     },
-    labelField: 'name',
+    labelField: 'FC',
     visible: true,
   },
   {
@@ -53,7 +55,9 @@ export const VECTOR_LAYERS = [
     label: 'Highways',
     url: 'data/highways.geojson',
     type: 'line',
-    paint: { 'line-color': '#555', 'line-width': 1.2 },
+    paint: { 'line-color': '#8a8f98', 'line-width': 0.8 },
+    // The road attributes are internal codes, so there is nothing useful to show in a pop-up.
+    popup: false,
     visible: true,
   },
   // Planned: Indigenous population by census subdivision (choropleth).

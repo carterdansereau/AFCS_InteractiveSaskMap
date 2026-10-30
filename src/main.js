@@ -21,9 +21,10 @@ const map = new maplibregl.Map({
 map.addControl(new maplibregl.NavigationControl(), 'top-right');
 map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
 
-function propsTable(props) {
-  const rows = Object.entries(props).filter(([k, v]) => !k.startsWith('_') && v != null && v !== '');
-  return `<table>${rows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</table>`;
+function propsTable(props, titleField) {
+  const rows = Object.entries(props).filter(([k, v]) => k !== titleField && !k.startsWith('_') && v != null && v !== '');
+  const title = titleField && props[titleField] ? `<strong>${props[titleField]}</strong>` : '';
+  return `${title}<table>${rows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</table>`;
 }
 
 async function addVectorLayer(def) {
@@ -44,9 +45,13 @@ async function addVectorLayer(def) {
       paint: { 'text-halo-color': '#fff', 'text-halo-width': 1.5 },
     });
   }
-  map.on('click', def.id, (e) => {
-    new maplibregl.Popup().setLngLat(e.lngLat).setHTML(propsTable(e.features[0].properties)).addTo(map);
-  });
+  if (def.popup !== false) {
+    map.on('click', def.id, (e) => {
+      new maplibregl.Popup().setLngLat(e.lngLat).setHTML(propsTable(e.features[0].properties, def.labelField)).addTo(map);
+    });
+    map.on('mouseenter', def.id, () => (map.getCanvas().style.cursor = 'pointer'));
+    map.on('mouseleave', def.id, () => (map.getCanvas().style.cursor = ''));
+  }
   return def;
 }
 

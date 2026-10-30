@@ -16,7 +16,7 @@ npm run build    # writes the site to dist/
 
 ## Add your data
 
-Export each layer from QGIS as GeoJSON (EPSG:4326) into `public/data/`. See [`public/data/README.md`](public/data/README.md) for file names and fields, or use `scripts/prepare-data.sh` to convert and slim down GeoPackages with `ogr2ogr`.
+Export each layer from QGIS as GeoJSON (EPSG:4326), then run `scripts/clean_exports.py` to slim them into `public/data/`. See [`public/data/README.md`](public/data/README.md) for the steps and fields.
 
 ## Where things live
 

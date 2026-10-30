@@ -43,7 +43,7 @@ function popupHtml(p) {
     ['Reported', p[f.reported]],
     ['Out', p[f.out]],
     ['Size', p._size ? `${p._size.toLocaleString()} ha` : null],
-    ['Cause', p[f.cause]],
+    ['Cause', FIRES.causes[p[f.cause]] ?? p[f.cause]],
   ].filter(([, v]) => v != null && v !== '');
   return `<table>${rows.map(([k, v]) => `<tr><th>${k}</th><td>${String(v).slice(0, 10)}</td></tr>`).join('')}</table>`;
 }
@@ -86,11 +86,12 @@ export async function addFires(map, maplibregl) {
     range: { min: minYear, max: maxYear },
     format: { to: (v) => Math.round(v), from: Number },
   });
-  // Fire sizes span 0.01 ha to 1,000,000+ ha, so the size slider is non-linear.
+  // Fires run from 200 ha to over 500,000 ha, so the size slider is non-linear.
   noUiSlider.create(sizeEl, {
-    start: 0,
+    start: 200,
     connect: [false, true],
-    range: { min: 0, '25%': 10, '50%': 200, '75%': 10000, max: 500000 },
+    step: 100,
+    range: { min: 200, '25%': 500, '50%': 2000, '75%': 20000, max: 600000 },
     format: { to: (v) => Math.round(v), from: Number },
   });
 
