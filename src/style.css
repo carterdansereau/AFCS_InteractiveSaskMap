@@ -66,3 +66,5 @@ button { font: inherit; padding: 4px 10px; border: 1px solid var(--border); bord
   color: #13493f; border: 1.5px solid var(--c);
   background: color-mix(in srgb, var(--c) 22%, transparent);
 }
+.sub-filters { padding: 4px 0 0 24px; font-size: 12px; color: var(--muted); }
+#panel .sub-filters label { display: flex; align-items: center; gap: 6px; margin: 3px 0; }

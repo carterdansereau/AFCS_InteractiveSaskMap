@@ -10,6 +10,7 @@ import { addWeather } from './weather.js';
 import { addActiveFires, addHotspots } from './live.js';
 import { addFunding, fundingYears, loadFunding } from './funding.js';
 import { loadGeoJSON, notice } from './util.js';
+import { highwayControls } from './highways.js';
 
 maplibregl.setWorkerUrl(workerUrl);
 
@@ -98,6 +99,10 @@ function addToggle(def) {
   document.getElementById(`layers-${def.group ?? 'reference'}`).append(wrap);
   // Controls that belong to a layer (e.g. the fire size slider) sit under its toggle.
   if (def.after) wrap.append(document.getElementById(def.after));
+  if (def.controls) {
+    wrap.append(def.controls);
+    wrap.querySelector('input').addEventListener('change', (e) => (def.controls.hidden = !e.target.checked));
+  }
 }
 
 map.on('load', async () => {
@@ -105,6 +110,8 @@ map.on('load', async () => {
   const [centres, ...others] = VECTOR_LAYERS;
   const added = [];
   for (const def of others) added.push(await addVectorLayer(def));
+  const highways = added.find((d) => d?.id === 'highways');
+  if (highways) highways.controls = highwayControls(map, 'highways');
   const funding = await loadFunding();
   added.push(await addFires(map, maplibregl, funding ? fundingYears(funding) : []));
   const centresDef = await addVectorLayer(centres);

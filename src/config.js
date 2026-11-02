@@ -56,13 +56,18 @@ export const VECTOR_LAYERS = [
   },
   {
     id: 'highways',
-    label: 'Highways',
+    label: 'Provincial highways',
     url: 'data/highways.geojson',
     type: 'line',
-    paint: { 'line-color': '#8a8f98', 'line-width': 0.8 },
+    paint: {
+      'line-color': ['case', ['<', ['get', 'hwy'], 100], '#6b717b', '#9aa0a8'],
+      'line-width': ['case', ['<', ['get', 'hwy'], 100], 1.4, 0.7],
+    },
     group: 'reference',
-    legend: [{ type: 'line', color: '#8a8f98', width: 1, label: 'Roads' }],
-    // The road attributes are internal codes, so there is nothing useful to show in a pop-up.
+    legend: [
+      { type: 'line', color: '#6b717b', width: 2, label: 'Highways 1–99' },
+      { type: 'line', color: '#9aa0a8', width: 1, label: 'Other numbered highways' },
+    ],
     popup: false,
     visible: true,
   },
@@ -79,6 +84,20 @@ export const VECTOR_LAYERS = [
   },
   // Planned: Indigenous population by census subdivision (choropleth).
 ];
+
+// Which provincial highways to draw. `hwy` is the highway number; `cls` is the road class from
+// the provincial dataset, where 1 and 2 are the main roadway and 13 is unposted northern road.
+// The other classes are short pieces (interchange ramps, turning lanes, access segments).
+export const HIGHWAYS = {
+  series: [
+    { label: 'Highways 1–99 (main routes)', min: 0, max: 99, on: true },
+    { label: '100-series (northern)', min: 100, max: 199, on: true },
+    { label: '200-series (park & lake access)', min: 200, max: 299, on: false },
+    { label: '300-series (secondary)', min: 300, max: 399, on: false },
+    { label: '900-series (northern roads)', min: 900, max: 999, on: true },
+  ],
+  mainClasses: [1, 2, 13],
+};
 
 // Funding per centre per year, converted from public/data/funding.xlsx at build time
 // (scripts/funding-to-json.mjs). Circle area is proportional to dollars.
