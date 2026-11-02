@@ -25,6 +25,7 @@ The map data lives in `public/data/` as GeoJSON files. See [`public/data/README.
 | `src/config.js` | Data file paths, field names, colours, size classes, CWFIS layers. Most changes start here. |
 | `src/fires.js` | Wildfire layer, date and size sliders, play button |
 | `src/weather.js` | CWFIS fire weather overlay (WMS) and date picker |
+| `src/funding.js` | Funding circles and Friendship Centre pop-ups, driven by the year slider |
 | `src/main.js` | Map setup, other layers, layer toggles |
 | `docs/PLAN.md` | Roadmap and design decisions |
 

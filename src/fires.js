@@ -1,6 +1,7 @@
 import noUiSlider from 'nouislider';
 import { FIRES } from './config.js';
 import { loadGeoJSON, notice } from './util.js';
+import { setYears } from './years.js';
 
 const DAY = 86_400_000;
 const f = FIRES.fields;
@@ -48,14 +49,17 @@ function popupHtml(p) {
   return `<table>${rows.map(([k, v]) => `<tr><th>${k}</th><td>${String(v).slice(0, 10)}</td></tr>`).join('')}</table>`;
 }
 
-export async function addFires(map, maplibregl) {
+// extraYears widens the year slider so other layers (funding) can use years with no fires.
+export async function addFires(map, maplibregl, extraYears = []) {
   const data = await loadGeoJSON(FIRES.url);
   if (!data) {
     notice(`No wildfire data yet. Export your fire layer from QGIS to <code>public/${FIRES.url}</code>.`);
     document.getElementById('fire-filters').hidden = true;
     return null;
   }
-  const { minYear, maxYear } = prepare(data);
+  const fireYears = prepare(data);
+  const minYear = Math.min(fireYears.minYear, ...extraYears);
+  const maxYear = Math.max(fireYears.maxYear, ...extraYears);
 
   map.addSource('fires', { type: 'geojson', data });
   map.addLayer({
@@ -101,6 +105,7 @@ export async function addFires(map, maplibregl) {
     const from = Math.floor(Date.UTC(y0, 0, 1) / DAY);
     const to = Math.floor(Date.UTC(y1, 11, 31) / DAY);
     map.setFilter('fires', ['all', ['<=', ['get', '_start'], to], ['>=', ['get', '_end'], from], ['>=', ['get', '_size'], minSize]]);
+    setYears(y0, y1);
     document.getElementById('year-label').value = y0 === y1 ? `in ${y0}` : `between ${y0} and ${y1}`;
     document.getElementById('size-label').value = `${minSize.toLocaleString()} ha`;
     const shown = data.features.filter((ft) => ft.properties._start <= to && ft.properties._end >= from && ft.properties._size >= minSize).length;

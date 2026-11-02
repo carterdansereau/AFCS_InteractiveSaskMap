@@ -48,6 +48,8 @@ export const VECTOR_LAYERS = [
       'circle-stroke-width': 2,
     },
     labelField: 'FC',
+    // Pop-ups for centres are built in funding.js so they can include funding.
+    popup: false,
     visible: true,
   },
   {
@@ -62,6 +64,16 @@ export const VECTOR_LAYERS = [
   },
   // Planned: Indigenous population by census subdivision (choropleth).
 ];
+
+// Funding per centre per year, converted from public/data/funding.xlsx at build time
+// (scripts/funding-to-json.mjs). Circle area is proportional to dollars.
+export const FUNDING = {
+  url: 'data/funding.json',
+  centreField: 'FC',
+  color: '#2a9d8f',
+  minRadius: 16,
+  maxRadius: 44,
+};
 
 // CWFIS GeoServer WMS. Checked 2026-10-29: the legacy server still serves the
 // public:fwi / public:fdr layers with a daily TIME dimension. NRCan is moving

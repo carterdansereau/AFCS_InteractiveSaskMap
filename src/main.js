@@ -8,6 +8,7 @@ import { MAP, VECTOR_LAYERS } from './config.js';
 import { addFires } from './fires.js';
 import { addWeather } from './weather.js';
 import { addActiveFires, addHotspots } from './live.js';
+import { addFunding, fundingYears, loadFunding } from './funding.js';
 import { loadGeoJSON, notice } from './util.js';
 
 maplibregl.setWorkerUrl(workerUrl);
@@ -34,6 +35,7 @@ async function addVectorLayer(def) {
     notice(`${def.label}: no data at <code>public/${def.url}</code> yet.`);
     return null;
   }
+  def.data = data;
   map.addSource(def.id, { type: 'geojson', data });
   map.addLayer({ id: def.id, type: def.type, source: def.id, paint: def.paint });
   if (def.labelField) {
@@ -42,7 +44,7 @@ async function addVectorLayer(def) {
       type: 'symbol',
       source: def.id,
       minzoom: 6,
-      layout: { 'text-field': ['get', def.labelField], 'text-size': 12, 'text-offset': [0, 1.2], 'text-anchor': 'top' },
+      layout: { 'text-field': ['get', def.labelField], 'text-font': ['Noto Sans Regular'], 'text-size': 12, 'text-offset': [0, 1.2], 'text-anchor': 'top' },
       paint: { 'text-halo-color': '#fff', 'text-halo-width': 1.5 },
     });
   }
@@ -61,6 +63,7 @@ function addToggle(def) {
   const wrap = document.createElement('div');
   wrap.className = 'toggle';
   wrap.innerHTML = `<input type="checkbox" id="${id}" checked><label for="${id}">${def.label}</label>`;
+  if (def.note) wrap.innerHTML += `<p class="hint legend">${def.note}</p>`;
   if (def.legend) {
     wrap.innerHTML += `<ul class="legend">${def.legend
       .map((c) => `<li><span style="background:${c.color};width:${c.radius * 2}px;height:${c.radius * 2}px"></span>${c.label}</li>`)
@@ -80,8 +83,11 @@ map.on('load', async () => {
   const [centres, ...others] = VECTOR_LAYERS;
   const added = [];
   for (const def of others) added.push(await addVectorLayer(def));
-  added.push(await addFires(map, maplibregl));
-  added.push(await addVectorLayer(centres));
+  const funding = await loadFunding();
+  added.push(await addFires(map, maplibregl, funding ? fundingYears(funding) : []));
+  const centresDef = await addVectorLayer(centres);
+  added.push(centresDef);
+  if (centresDef) added.push(addFunding(map, maplibregl, funding, centresDef.data));
   addWeather(map, map.getLayer('highways') ? 'highways' : undefined);
   added.push(addHotspots(map, map.getLayer('fires') ? 'fires' : undefined));
   added.push(await addActiveFires(map, maplibregl));
