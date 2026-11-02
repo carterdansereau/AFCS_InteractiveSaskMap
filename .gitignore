@@ -1,3 +1,5 @@
 node_modules/
 dist/
 raw/
+# Generated from funding.xlsx at build time
+public/data/funding.json
