@@ -13,11 +13,17 @@ import { loadGeoJSON, notice } from './util.js';
 
 maplibregl.setWorkerUrl(workerUrl);
 
+// Keep the province clear of the side panel on wide screens.
+function fitPadding() {
+  const wide = window.innerWidth > 600;
+  return { top: wide ? 20 : 70, bottom: 20, right: 50, left: wide ? 340 : 20 };
+}
+
 const map = new maplibregl.Map({
   container: 'map',
   style: MAP.basemap,
-  center: MAP.center,
-  zoom: MAP.zoom,
+  bounds: MAP.bounds,
+  fitBoundsOptions: { padding: fitPadding() },
   maxBounds: MAP.maxBounds,
 });
 map.addControl(new maplibregl.NavigationControl(), 'top-right');
@@ -58,28 +64,44 @@ async function addVectorLayer(def) {
   return def;
 }
 
+function legendItem(item) {
+  const label = item.label ? `<span>${item.label}</span>` : '';
+  switch (item.type) {
+    case 'image':
+      return `<li><img src="${item.src}" alt="" onerror="this.closest('li').remove()"></li>`;
+    case 'line':
+      return `<li><i class="swatch-line" style="border-top:${item.width ?? 1}px solid ${item.color}"></i>${label}</li>`;
+    case 'funding':
+      return `<li><i class="swatch-funding" style="--c:${item.color}">$</i>${label}</li>`;
+    default: {
+      const size = item.radius * 2;
+      const border = item.stroke ? `border:1.5px solid ${item.stroke};` : '';
+      return `<li><i class="swatch-circle" style="background:${item.color};width:${size}px;height:${size}px;opacity:${item.opacity ?? 1};${border}"></i>${label}</li>`;
+    }
+  }
+}
+
 function addToggle(def) {
   const id = `toggle-${def.id}`;
   const wrap = document.createElement('div');
   wrap.className = 'toggle';
-  wrap.innerHTML = `<input type="checkbox" id="${id}" checked><label for="${id}">${def.label}</label>`;
+  wrap.innerHTML = `<input type="checkbox" id="${id}" checked><label for="${id}" class="layer-title">${def.label}</label>`;
   if (def.note) wrap.innerHTML += `<p class="hint legend">${def.note}</p>`;
-  if (def.legend) {
-    wrap.innerHTML += `<ul class="legend">${def.legend
-      .map((c) => `<li><span style="background:${c.color};width:${c.radius * 2}px;height:${c.radius * 2}px"></span>${c.label}</li>`)
-      .join('')}</ul>`;
-  }
+  if (def.legend) wrap.innerHTML += `<ul class="legend">${def.legend.map(legendItem).join('')}</ul>`;
   wrap.querySelector('input').addEventListener('change', (e) => {
     const vis = e.target.checked ? 'visible' : 'none';
     for (const layerId of [def.id, `${def.id}-label`]) {
       if (map.getLayer(layerId)) map.setLayoutProperty(layerId, 'visibility', vis);
     }
+    if (def.after) document.getElementById(def.after).hidden = !e.target.checked;
   });
-  document.getElementById('layer-toggles').append(wrap);
+  document.getElementById(`layers-${def.group ?? 'reference'}`).append(wrap);
+  // Controls that belong to a layer (e.g. the fire size slider) sit under its toggle.
+  if (def.after) wrap.append(document.getElementById(def.after));
 }
 
 map.on('load', async () => {
-  // Highways go under fires; Friendship Centres stay on top so they are always clickable.
+  // Highways and the border go under fires; Friendship Centres stay on top so they are always clickable.
   const [centres, ...others] = VECTOR_LAYERS;
   const added = [];
   for (const def of others) added.push(await addVectorLayer(def));
@@ -91,7 +113,12 @@ map.on('load', async () => {
   addWeather(map, map.getLayer('highways') ? 'highways' : undefined);
   added.push(addHotspots(map, map.getLayer('fires') ? 'fires' : undefined));
   added.push(await addActiveFires(map, maplibregl));
-  for (const def of added.filter(Boolean).reverse()) addToggle(def);
+  // Panel order: most important first within each group.
+  const order = ['active-fires', 'hotspots', 'fires', 'funding', 'friendship-centres', 'border', 'highways'];
+  const defs = added.filter(Boolean).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+  for (const def of defs) addToggle(def);
+  // Allow a little zoom-out past the province, but not to the whole continent.
+  map.setMinZoom(map.getZoom() - 0.5);
 });
 
 const toggleBtn = document.getElementById('panel-toggle');

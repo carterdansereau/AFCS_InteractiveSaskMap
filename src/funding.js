@@ -111,5 +111,11 @@ export function addFunding(map, maplibregl, records, centres) {
     map.getSource('funding').setData({ type: 'FeatureCollection', features });
   });
 
-  return { id: 'funding', label: 'Funding to Friendship Centres', note: 'Circle area shows total funding for the selected years.' };
+  return {
+    id: 'funding',
+    label: 'Funding to Friendship Centres',
+    group: 'historical',
+    note: 'Circle area shows total funding for the selected years.',
+    legend: [{ type: 'funding', color: FUNDING.color, label: 'Funding, e.g. $250K' }],
+  };
 }

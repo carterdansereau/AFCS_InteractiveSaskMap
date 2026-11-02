@@ -2,10 +2,10 @@
 // or a CWFIS layer name should not require touching the rest of the app.
 
 export const MAP = {
-  center: [-105.9, 54.5],
-  zoom: 4.6,
-  // Roughly the Saskatchewan border, with some padding.
-  maxBounds: [[-116, 47], [-95, 61.5]],
+  // Saskatchewan's extent; the map opens fitted to it and can't zoom out much further.
+  bounds: [[-110, 49], [-101.36, 60]],
+  // Loose limit on panning, wide enough that the whole province fits on any screen shape.
+  maxBounds: [[-130, 41], [-80, 64]],
   // OpenFreeMap: free vector basemap, no API key.
   basemap: 'https://tiles.openfreemap.org/styles/positron',
 };
@@ -48,6 +48,8 @@ export const VECTOR_LAYERS = [
       'circle-stroke-width': 2,
     },
     labelField: 'FC',
+    group: 'reference',
+    legend: [{ type: 'circle', color: '#1f5fa8', radius: 6, stroke: '#ffffff', label: 'Friendship Centre (click for funding)' }],
     // Pop-ups for centres are built in funding.js so they can include funding.
     popup: false,
     visible: true,
@@ -58,9 +60,22 @@ export const VECTOR_LAYERS = [
     url: 'data/highways.geojson',
     type: 'line',
     paint: { 'line-color': '#8a8f98', 'line-width': 0.8 },
+    group: 'reference',
+    legend: [{ type: 'line', color: '#8a8f98', width: 1, label: 'Roads' }],
     // The road attributes are internal codes, so there is nothing useful to show in a pop-up.
     popup: false,
     visible: true,
+  },
+  {
+    // Natural Earth 1:10m province outline (public domain).
+    id: 'border',
+    label: 'Saskatchewan border',
+    url: 'data/saskatchewan.geojson',
+    type: 'line',
+    paint: { 'line-color': '#37404d', 'line-width': 2 },
+    popup: false,
+    group: 'reference',
+    legend: [{ type: 'line', color: '#37404d', width: 2, label: 'Provincial border' }],
   },
   // Planned: Indigenous population by census subdivision (choropleth).
 ];

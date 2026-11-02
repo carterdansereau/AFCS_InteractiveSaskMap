@@ -32,7 +32,6 @@ button { font: inherit; padding: 4px 10px; border: 1px solid var(--border); bord
 #panel .toggle label { display: inline; margin: 0 0 0 6px; }
 .legend { list-style: none; padding: 0 0 0 24px; margin: 6px 0 0; font-size: 12px; color: var(--muted); }
 .legend li { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
-.legend span { display: inline-block; border-radius: 50%; }
 #weather-legend { display: block; margin-top: 8px; max-width: 100%; }
 
 .noUi-target { margin: 6px 8px 0; }
@@ -42,4 +41,28 @@ button { font: inherit; padding: 4px 10px; border: 1px solid var(--border); bord
 
 @media (max-width: 600px) {
   #panel { left: 8px; right: 8px; width: auto; max-height: 55%; }
+}
+
+/* Panel groups: current conditions, historical, reference */
+#panel section.group h2 {
+  font-size: 12px; color: var(--fg); margin: 0 0 10px;
+  padding-left: 8px; border-left: 3px solid var(--accent);
+}
+#panel section.group:nth-of-type(2) h2 { border-left-color: #2a9d8f; }
+#panel section.group:nth-of-type(3) h2 { border-left-color: #8a8f98; }
+.toggle, .layer-block { margin-bottom: 12px; }
+.layer-title { font-weight: 600; }
+#panel .layer-block label.layer-title { margin-top: 0; }
+#layers-historical { margin-top: 14px; }
+#fire-filters { padding-left: 24px; }
+#live-status { padding-left: 24px; margin: 4px 0 0; }
+.legend li { min-height: 16px; }
+.legend img { max-width: 100%; }
+.swatch-circle { display: inline-block; border-radius: 50%; box-sizing: border-box; flex: none; }
+.swatch-line { display: inline-block; width: 22px; flex: none; }
+.swatch-funding {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 20px; height: 20px; border-radius: 50%; font-style: normal; font-size: 10px; font-weight: 700;
+  color: #13493f; border: 1.5px solid var(--c);
+  background: color-mix(in srgb, var(--c) 22%, transparent);
 }
