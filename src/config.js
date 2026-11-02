@@ -40,16 +40,15 @@ export const VECTOR_LAYERS = [
     id: 'friendship-centres',
     label: 'Friendship Centres',
     url: 'data/friendship_centres.geojson',
-    type: 'circle',
-    paint: {
-      'circle-radius': 7,
-      'circle-color': '#1f5fa8',
-      'circle-stroke-color': '#ffffff',
-      'circle-stroke-width': 2,
-    },
+    // Drawn as a pink star with its name beside it; neither the icon nor the name is ever hidden
+    // by collision, so every centre is always labelled. See src/star.js and addVectorLayer().
+    type: 'symbol',
+    icon: { color: '#e6007e', outline: '#ffffff' },
     labelField: 'FC',
+    // Names are drawn to the right of the star; these go to the left so crowded centres don't cover each other.
+    labelLeft: ['Ile-a-la-Crosse'],
     group: 'reference',
-    legend: [{ type: 'circle', color: '#1f5fa8', radius: 6, stroke: '#ffffff', label: 'Friendship Centre (click for funding)' }],
+    legend: [{ type: 'star', color: '#e6007e', outline: '#ffffff', label: 'Friendship Centre (click for funding)' }],
     // Pop-ups for centres are built in funding.js so they can include funding.
     popup: false,
     visible: true,
@@ -60,13 +59,14 @@ export const VECTOR_LAYERS = [
     url: 'data/highways.geojson',
     type: 'line',
     paint: {
-      'line-color': ['case', ['<', ['get', 'hwy'], 100], '#6b717b', '#9aa0a8'],
-      'line-width': ['case', ['<', ['get', 'hwy'], 100], 1.4, 0.7],
+      // Main (1–99), northern (100-series, 900-series) roads are near-black; 200/300-series are dark grey.
+      'line-color': ['case', ['any', ['<', ['get', 'hwy'], 200], ['>=', ['get', 'hwy'], 900]], '#14161a', '#4b5059'],
+      'line-width': ['case', ['<', ['get', 'hwy'], 100], 1.8, ['any', ['<', ['get', 'hwy'], 200], ['>=', ['get', 'hwy'], 900]], 1.3, 0.9],
     },
     group: 'reference',
     legend: [
-      { type: 'line', color: '#6b717b', width: 2, label: 'Highways 1–99' },
-      { type: 'line', color: '#9aa0a8', width: 1, label: 'Other numbered highways' },
+      { type: 'line', color: '#14161a', width: 2, label: 'Main and northern highways' },
+      { type: 'line', color: '#4b5059', width: 1, label: 'Other numbered highways' },
     ],
     popup: false,
     visible: true,

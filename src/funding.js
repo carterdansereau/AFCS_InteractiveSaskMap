@@ -91,7 +91,7 @@ export function addFunding(map, maplibregl, records, centres) {
         'text-font': ['Noto Sans Bold'],
         'text-size': 11,
         'text-anchor': 'bottom',
-        'text-offset': [0, -0.7],
+        'text-offset': [0, -1.3],
         'text-allow-overlap': true,
       },
       paint: { 'text-color': '#13493f', 'text-halo-color': '#fff', 'text-halo-width': 1.2 },
