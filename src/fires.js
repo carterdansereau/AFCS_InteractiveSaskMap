@@ -132,5 +132,5 @@ export async function addFires(map, maplibregl, extraYears = []) {
     }, 900);
   });
 
-  return { id: 'fires', label: 'Historical wildfires', legend: FIRES.sizeClasses };
+  return { id: 'fires', label: 'Historical wildfires (200 ha and larger)', group: 'historical', after: 'fire-filters', legend: FIRES.sizeClasses.map((c) => ({ ...c, opacity: 0.8 })) };
 }

@@ -83,9 +83,9 @@ export async function addActiveFires(map, maplibregl) {
   return {
     id: 'active-fires',
     label: 'Active fires (agency reported)',
-    legend: [
-      ...Object.values(ACTIVE_FIRES.stages).map((s) => ({ color: s.color, radius: 6, label: s.label })),
-    ],
+    group: 'current',
+    after: 'live-status',
+    legend: Object.values(ACTIVE_FIRES.stages).map((s) => ({ color: s.color, radius: 6, stroke: '#000', label: s.label })),
   };
 }
 
@@ -96,5 +96,12 @@ export function addHotspots(map, beforeId) {
   });
   map.addSource('hotspots', { type: 'raster', tiles: [`${HOTSPOTS.wmsUrl}?${params}&bbox={bbox-epsg-3857}`], tileSize: 256 });
   map.addLayer({ id: 'hotspots', type: 'raster', source: 'hotspots' }, beforeId);
-  return { id: 'hotspots', label: 'Satellite hotspots (last 24 h)' };
+  const legend = new URLSearchParams({ service: 'WMS', version: '1.1.1', request: 'GetLegendGraphic', layer: HOTSPOTS.layer, format: 'image/png' });
+  return {
+    id: 'hotspots',
+    label: 'Satellite hotspots (last 24 h)',
+    group: 'current',
+    note: 'Heat detected by satellite. Not every hotspot is a wildfire.',
+    legend: [{ type: 'image', src: `${HOTSPOTS.wmsUrl}?${legend}` }],
+  };
 }

@@ -15,38 +15,41 @@
       <div id="panel-body">
         <div id="notices"></div>
 
-        <section>
-          <h2>Layers</h2>
-          <div id="layer-toggles"></div>
+        <section class="group">
+          <h2>Current conditions</h2>
+          <div id="layers-current"></div>
+          <div id="weather-controls" class="layer-block">
+            <label for="weather-layer" class="layer-title">Fire weather (CWFIS)</label>
+            <select id="weather-layer"></select>
+            <label for="weather-date">Date</label>
+            <input id="weather-date" type="date" />
+            <img id="weather-legend" alt="Legend for the selected fire weather layer" />
+          </div>
+          <p class="hint">Live data from Natural Resources Canada, Canadian Wildland Fire Information System.</p>
         </section>
 
-        <section id="live-fires">
-          <h2>Live fires</h2>
-          <p id="live-status" class="hint">Loading…</p>
-        </section>
-
-        <section id="fire-filters">
-          <h2>Historical wildfires</h2>
-          <label>Active <output id="year-label"></output></label>
+        <section class="group">
+          <h2>Historical</h2>
+          <label>Showing <output id="year-label"></output></label>
           <div id="year-slider"></div>
           <div class="row">
             <button id="play" type="button">▶ Play</button>
             <span class="hint">steps one year at a time</span>
           </div>
-          <label>Minimum size <output id="size-label"></output></label>
-          <div id="size-slider"></div>
-          <p class="count"><output id="fire-count">0</output> fires shown</p>
+          <div id="layers-historical"></div>
+          <div id="fire-filters">
+            <label>Minimum fire size <output id="size-label"></output></label>
+            <div id="size-slider"></div>
+            <p class="count"><output id="fire-count">0</output> fires shown</p>
+          </div>
         </section>
 
-        <section id="weather-controls">
-          <h2>Fire weather (CWFIS)</h2>
-          <label for="weather-layer">Layer</label>
-          <select id="weather-layer"></select>
-          <label for="weather-date">Date</label>
-          <input id="weather-date" type="date" />
-          <img id="weather-legend" alt="Legend for the selected fire weather layer" />
-          <p class="hint">Source: Natural Resources Canada, Canadian Wildland Fire Information System.</p>
+        <section class="group">
+          <h2>Reference</h2>
+          <div id="layers-reference"></div>
         </section>
+
+        <p id="live-status" class="hint">Loading…</p>
       </div>
     </aside>
     <script type="module" src="/src/main.js"></script>
