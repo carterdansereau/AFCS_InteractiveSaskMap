@@ -11,6 +11,7 @@ import { addActiveFires, addHotspots } from './live.js';
 import { addFunding, fundingYears, loadFunding } from './funding.js';
 import { loadGeoJSON, notice } from './util.js';
 import { highwayControls } from './highways.js';
+import { starImage, starSvg } from './star.js';
 
 maplibregl.setWorkerUrl(workerUrl);
 
@@ -44,8 +45,32 @@ async function addVectorLayer(def) {
   }
   def.data = data;
   map.addSource(def.id, { type: 'geojson', data });
-  map.addLayer({ id: def.id, type: def.type, source: def.id, paint: def.paint });
-  if (def.labelField) {
+  if (def.type === 'symbol') {
+    // Icon and name in one layer, with collisions turned off so nothing is ever hidden.
+    map.addImage(`${def.id}-icon`, starImage(def.icon.color, def.icon.outline), { pixelRatio: 2 });
+    map.addLayer({
+      id: def.id,
+      type: 'symbol',
+      source: def.id,
+      layout: {
+        'icon-image': `${def.id}-icon`,
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true,
+        'text-field': ['get', def.labelField],
+        'text-font': ['Noto Sans Bold'],
+        'text-size': 13,
+        'text-anchor': ['case', ['in', ['get', def.labelField], ['literal', def.labelLeft ?? []]], 'right', 'left'],
+        'text-offset': ['case', ['in', ['get', def.labelField], ['literal', def.labelLeft ?? []]], ['literal', [-1.1, 0]], ['literal', [1.1, 0]]],
+        'text-optional': false,
+        'text-allow-overlap': true,
+        'text-ignore-placement': true,
+      },
+      paint: { 'text-color': '#1d2430', 'text-halo-color': '#ffffff', 'text-halo-width': 2 },
+    });
+  } else {
+    map.addLayer({ id: def.id, type: def.type, source: def.id, paint: def.paint });
+  }
+  if (def.labelField && def.type !== 'symbol') {
     map.addLayer({
       id: `${def.id}-label`,
       type: 'symbol',
@@ -72,6 +97,8 @@ function legendItem(item) {
       return `<li><img src="${item.src}" alt="" onerror="this.closest('li').remove()"></li>`;
     case 'line':
       return `<li><i class="swatch-line" style="border-top:${item.width ?? 1}px solid ${item.color}"></i>${label}</li>`;
+    case 'star':
+      return `<li>${starSvg(item.color, item.outline)}${label}</li>`;
     case 'funding':
       return `<li><i class="swatch-funding" style="--c:${item.color}">$</i>${label}</li>`;
     default: {
