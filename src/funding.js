@@ -86,6 +86,7 @@ export function addFunding(map, maplibregl, records, centres) {
       id: 'funding-label',
       type: 'symbol',
       source: 'funding',
+      minzoom: 6, // amounts hide when zoomed out; centre names stay
       layout: {
         'text-field': ['get', 'label'],
         'text-font': ['Noto Sans Bold'],

@@ -11,7 +11,6 @@ import { addActiveFires, addHotspots } from './live.js';
 import { addFunding, fundingYears, loadFunding } from './funding.js';
 import { loadGeoJSON, notice } from './util.js';
 import { highwayControls } from './highways.js';
-import { starImage, starSvg } from './star.js';
 
 maplibregl.setWorkerUrl(workerUrl);
 
@@ -45,39 +44,26 @@ async function addVectorLayer(def) {
   }
   def.data = data;
   map.addSource(def.id, { type: 'geojson', data });
-  if (def.type === 'symbol') {
-    // Icon and name in one layer, with collisions turned off so nothing is ever hidden.
-    map.addImage(`${def.id}-icon`, starImage(def.icon.color, def.icon.outline), { pixelRatio: 2 });
-    map.addLayer({
-      id: def.id,
-      type: 'symbol',
-      source: def.id,
-      layout: {
-        'icon-image': `${def.id}-icon`,
-        'icon-allow-overlap': true,
-        'icon-ignore-placement': true,
-        'text-field': ['get', def.labelField],
-        'text-font': ['Noto Sans Bold'],
-        'text-size': 13,
-        'text-anchor': ['case', ['in', ['get', def.labelField], ['literal', def.labelLeft ?? []]], 'right', 'left'],
-        'text-offset': ['case', ['in', ['get', def.labelField], ['literal', def.labelLeft ?? []]], ['literal', [-1.1, 0]], ['literal', [1.1, 0]]],
-        'text-optional': false,
-        'text-allow-overlap': true,
-        'text-ignore-placement': true,
-      },
-      paint: { 'text-color': '#1d2430', 'text-halo-color': '#ffffff', 'text-halo-width': 2 },
-    });
-  } else {
-    map.addLayer({ id: def.id, type: def.type, source: def.id, paint: def.paint });
-  }
-  if (def.labelField && def.type !== 'symbol') {
+  map.addLayer({ id: def.id, type: def.type, source: def.id, paint: def.paint });
+  if (def.labelField) {
+    const left = ['in', ['get', def.labelField], ['literal', def.labelLeft ?? []]];
     map.addLayer({
       id: `${def.id}-label`,
       type: 'symbol',
       source: def.id,
-      minzoom: 6,
-      layout: { 'text-field': ['get', def.labelField], 'text-font': ['Noto Sans Regular'], 'text-size': 12, 'text-offset': [0, 1.2], 'text-anchor': 'top' },
-      paint: { 'text-halo-color': '#fff', 'text-halo-width': 1.5 },
+      ...(def.labelAlways ? {} : { minzoom: 6 }),
+      layout: def.labelAlways
+        ? {
+            'text-field': ['get', def.labelField],
+            'text-font': ['Noto Sans Bold'],
+            'text-size': 13,
+            'text-anchor': ['case', left, 'right', 'left'],
+            'text-offset': ['case', left, ['literal', [-1.1, 0]], ['literal', [1.1, 0]]],
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
+          }
+        : { 'text-field': ['get', def.labelField], 'text-font': ['Noto Sans Regular'], 'text-size': 12, 'text-offset': [0, 1.2], 'text-anchor': 'top' },
+      paint: { 'text-color': '#1d2430', 'text-halo-color': '#fff', 'text-halo-width': def.labelAlways ? 2 : 1.5 },
     });
   }
   if (def.popup !== false) {
@@ -97,8 +83,6 @@ function legendItem(item) {
       return `<li><img src="${item.src}" alt="" onerror="this.closest('li').remove()"></li>`;
     case 'line':
       return `<li><i class="swatch-line" style="border-top:${item.width ?? 1}px solid ${item.color}"></i>${label}</li>`;
-    case 'star':
-      return `<li>${starSvg(item.color, item.outline)}${label}</li>`;
     case 'funding':
       return `<li><i class="swatch-funding" style="--c:${item.color}">$</i>${label}</li>`;
     default: {

@@ -68,7 +68,8 @@ export async function addFires(map, maplibregl, extraYears = []) {
     source: 'fires',
     paint: {
       'circle-color': sizeStep((c) => c.color),
-      'circle-radius': sizeStep((c) => c.radius),
+      // Circles shrink to 40% of full size when zoomed out so they don't swamp the map.
+      'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, ['*', sizeStep((c) => c.radius), 0.4], 8, sizeStep((c) => c.radius)],
       'circle-opacity': 0.8,
       'circle-stroke-color': '#fff',
       'circle-stroke-width': 0.5,

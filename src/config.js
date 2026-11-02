@@ -40,15 +40,20 @@ export const VECTOR_LAYERS = [
     id: 'friendship-centres',
     label: 'Friendship Centres',
     url: 'data/friendship_centres.geojson',
-    // Drawn as a pink star with its name beside it; neither the icon nor the name is ever hidden
-    // by collision, so every centre is always labelled. See src/star.js and addVectorLayer().
-    type: 'symbol',
-    icon: { color: '#e6007e', outline: '#ffffff' },
+    // Bright blue circle; the name is always shown (see addVectorLayer()).
+    type: 'circle',
+    paint: {
+      'circle-radius': 7,
+      'circle-color': '#0a84ff',
+      'circle-stroke-color': '#ffffff',
+      'circle-stroke-width': 2,
+    },
     labelField: 'FC',
-    // Names are drawn to the right of the star; these go to the left so crowded centres don't cover each other.
+    labelAlways: true,
+    // Names are drawn to the right of the circle; these go to the left so crowded centres don't cover each other.
     labelLeft: ['Ile-a-la-Crosse'],
     group: 'reference',
-    legend: [{ type: 'star', color: '#e6007e', outline: '#ffffff', label: 'Friendship Centre (click for funding)' }],
+    legend: [{ type: 'circle', color: '#0a84ff', radius: 6, stroke: '#ffffff', label: 'Friendship Centre (click for funding)' }],
     // Pop-ups for centres are built in funding.js so they can include funding.
     popup: false,
     visible: true,
