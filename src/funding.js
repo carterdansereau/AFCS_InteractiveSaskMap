@@ -66,6 +66,16 @@ export function addFunding(map, maplibregl, records, centres) {
   if (!records?.length) return null;
 
   map.addSource('funding', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+  // Opaque white disc under the tinted circle so the fire weather colours don't show through it.
+  map.addLayer(
+    {
+      id: 'funding-fill',
+      type: 'circle',
+      source: 'funding',
+      paint: { 'circle-radius': ['get', 'radius'], 'circle-color': '#ffffff', 'circle-opacity': 0.95 },
+    },
+    'friendship-centres',
+  );
   map.addLayer(
     {
       id: 'funding',
@@ -114,6 +124,7 @@ export function addFunding(map, maplibregl, records, centres) {
 
   return {
     id: 'funding',
+    layers: ['funding', 'funding-fill', 'funding-label'],
     label: 'Funding to Friendship Centres',
     group: 'historical',
     note: 'Circle area shows total funding for the selected years.',
