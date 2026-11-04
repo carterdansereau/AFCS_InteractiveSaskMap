@@ -100,6 +100,21 @@ export async function addFires(map, maplibregl, extraYears = []) {
     format: { to: (v) => Math.round(v), from: Number },
   });
 
+  // Single-year mode: a dropdown replaces the slider, but the slider stays the source of truth.
+  const yearSelect = document.getElementById('year-select');
+  for (let y = maxYear; y >= minYear; y--) yearSelect.add(new Option(y, y));
+  const setMode = (single) => {
+    yearEl.hidden = single;
+    yearSelect.hidden = !single;
+    if (single) {
+      const y = Number(yearEl.noUiSlider.get()[1]);
+      yearSelect.value = y;
+      yearEl.noUiSlider.set([y, y]);
+    }
+  };
+  document.querySelectorAll('input[name="year-mode"]').forEach((r) => r.addEventListener('change', (e) => setMode(e.target.value === 'single')));
+  yearSelect.addEventListener('change', () => yearEl.noUiSlider.set([Number(yearSelect.value), Number(yearSelect.value)]));
+
   const update = () => {
     const [y0, y1] = yearEl.noUiSlider.get().map(Number);
     const minSize = Number(sizeEl.noUiSlider.get());
@@ -107,6 +122,7 @@ export async function addFires(map, maplibregl, extraYears = []) {
     const to = Math.floor(Date.UTC(y1, 11, 31) / DAY);
     map.setFilter('fires', ['all', ['<=', ['get', '_start'], to], ['>=', ['get', '_end'], from], ['>=', ['get', '_size'], minSize]]);
     setYears(y0, y1);
+    if (y0 === y1) yearSelect.value = y0;
     document.getElementById('year-label').value = y0 === y1 ? `in ${y0}` : `between ${y0} and ${y1}`;
     document.getElementById('size-label').value = `${minSize.toLocaleString()} ha`;
     const shown = data.features.filter((ft) => ft.properties._start <= to && ft.properties._end >= from && ft.properties._size >= minSize).length;

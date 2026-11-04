@@ -43,4 +43,8 @@ Pushing to `main` builds the site and publishes it with GitHub Pages (enable it 
 
 - Historical fires: Canadian National Fire Database (NFDB), Natural Resources Canada
 - Fire weather and fire danger: CWFIS, Natural Resources Canada (`public:fdr`, `public:fwi` and related WMS layers)
+- Active fires and hotspots: CWFIS / CWFIF, Natural Resources Canada
+- Highways: Government of Saskatchewan provincial highway network
+- Provincial border: Natural Earth (public domain)
+- Friendship Centre locations and funding: Association of Friendship Centres of Saskatchewan
 - Basemap: © OpenStreetMap contributors, via OpenFreeMap
