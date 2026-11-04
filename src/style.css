@@ -68,3 +68,11 @@ button { font: inherit; padding: 4px 10px; border: 1px solid var(--border); bord
 }
 .sub-filters { padding: 4px 0 0 24px; font-size: 12px; color: var(--muted); }
 #panel .sub-filters label { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+
+.modes { gap: 14px; margin: 4px 0 8px; }
+.modes label { display: inline-flex; align-items: center; gap: 4px; font-weight: 400; }
+#year-select { width: 100%; margin: 4px 0 8px; }
+.sources { margin-top: 14px; font-size: 12px; color: var(--muted); }
+.sources summary { cursor: pointer; font-weight: 600; }
+.sources ul { padding-left: 16px; margin: 8px 0 0; }
+.sources li { margin-bottom: 6px; }
