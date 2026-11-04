@@ -46,5 +46,5 @@ Pushing to `main` builds the site and publishes it with GitHub Pages (enable it 
 - Active fires and hotspots: CWFIS / CWFIF, Natural Resources Canada
 - Highways: Government of Saskatchewan GeoHub (Highways, official site)
 - Provincial border: Natural Earth (public domain)
-- Friendship Centre locations and funding: Association of Friendship Centres of Saskatchewan
+- Friendship Centre locations and funding: Aboriginal Friendship Centres of Saskatchewan
 - Basemap: © OpenStreetMap contributors, via OpenFreeMap
