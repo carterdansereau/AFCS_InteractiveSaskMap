@@ -77,7 +77,7 @@ export const VECTOR_LAYERS = [
     visible: true,
   },
   {
-    // Natural Earth 1:10m province outline (public domain).
+    // Statistics Canada provincial boundary (via geoBoundaries), full detail.
     id: 'border',
     label: 'Saskatchewan border',
     url: 'data/saskatchewan.geojson',
