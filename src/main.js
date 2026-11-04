@@ -102,7 +102,7 @@ function addToggle(def) {
   if (def.legend) wrap.innerHTML += `<ul class="legend">${def.legend.map(legendItem).join('')}</ul>`;
   wrap.querySelector('input').addEventListener('change', (e) => {
     const vis = e.target.checked ? 'visible' : 'none';
-    for (const layerId of [def.id, `${def.id}-label`]) {
+    for (const layerId of def.layers ?? [def.id, `${def.id}-label`]) {
       if (map.getLayer(layerId)) map.setLayoutProperty(layerId, 'visibility', vis);
     }
     if (def.after) document.getElementById(def.after).hidden = !e.target.checked;
