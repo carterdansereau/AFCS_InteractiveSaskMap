@@ -6,7 +6,7 @@
   "description": "Interactive map of Saskatchewan Friendship Centres, historical wildfires and live fire weather.",
   "scripts": {
     "funding": "node scripts/funding-to-json.mjs",
-    "floods": "node scripts/fetch-floods.mjs",
+    "floods": "node scripts/fetch-floods.mjs && node scripts/fetch-flood-events.mjs",
     "predev": "npm run funding",
     "dev": "vite",
     "prebuild": "npm run funding",
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@turf/area": "^7.4.0",
+    "@turf/boolean-point-in-polygon": "^7.4.0",
     "@turf/helpers": "^7.4.0",
     "@turf/intersect": "^7.4.0",
     "@turf/rewind": "^7.4.0",

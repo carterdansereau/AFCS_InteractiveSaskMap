@@ -16,8 +16,8 @@ const SERVICE = 'https://maps-cartes.services.geo.ca/egs_sgu/rest/services/Flood
 const YEARS = [2006, 2100]; // trimmed to the wildfire years in the app itself
 const FLOOD_CLASSES = { 0: 'Flood', 2: 'Open water flood', 3: 'Flooded vegetation', 4: 'Urban flood' };
 const MIN_KM2 = 1; // drop slivers where a neighbouring province's flood map just touches the border
-const PAGE = 500;
-const AOI_NAMES = { QuAppelle: "Qu'Appelle" }; // well under the service's 2,000 record cap
+const PAGE = 500; // well under the service's 2,000 record cap
+const AOI_NAMES = { QuAppelle: "Qu'Appelle" };
 
 const border = JSON.parse(await readFile(new URL('../public/data/saskatchewan.geojson', import.meta.url))).features[0];
 
