@@ -122,6 +122,9 @@ export const FEATURES = {
   // Funding circles around Friendship Centres (and their panel toggle). Hidden for now, 2026-11-06.
   // Funding still shows in a centre's pop-up. Set to true to bring the circles back.
   fundingCircles: false,
+  // Everything flood-related: satellite flood areas, flood event rings, their panel toggle and
+  // their Data sources entries. Set to false to hide all of it.
+  floods: true,
 };
 
 // Funding per centre per year, converted from public/data/funding.xlsx at build time
