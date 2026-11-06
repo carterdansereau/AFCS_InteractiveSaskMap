@@ -6,6 +6,7 @@ import 'nouislider/dist/nouislider.css';
 import './style.css';
 import { MAP, VECTOR_LAYERS } from './config.js';
 import { addFires } from './fires.js';
+import { addFloods } from './floods.js';
 import { addWeather } from './weather.js';
 import { addActiveFires, addHotspots } from './live.js';
 import { addFunding, fundingYears, loadFunding } from './funding.js';
@@ -83,6 +84,8 @@ function legendItem(item) {
       return `<li><img src="${item.src}" alt="" onerror="this.closest('li').remove()"></li>`;
     case 'line':
       return `<li><i class="swatch-line" style="border-top:${item.width ?? 1}px solid ${item.color}"></i>${label}</li>`;
+    case 'fill':
+      return `<li><i class="swatch-fill" style="background:${item.color};border:1px solid ${item.stroke ?? item.color}"></i>${label}</li>`;
     case 'funding':
       return `<li><i class="swatch-funding" style="--c:${item.color}">$</i>${label}</li>`;
     default: {
@@ -124,6 +127,8 @@ map.on('load', async () => {
   const highways = added.find((d) => d?.id === 'highways');
   if (highways) highways.controls = highwayControls(map, 'highways');
   const funding = await loadFunding();
+  // Floods sit above highways and the border but under the fire circles.
+  added.push(await addFloods(map, maplibregl));
   added.push(await addFires(map, maplibregl, funding ? fundingYears(funding) : []));
   const centresDef = await addVectorLayer(centres);
   added.push(centresDef);
@@ -132,7 +137,7 @@ map.on('load', async () => {
   added.push(addHotspots(map, map.getLayer('fires') ? 'fires' : undefined));
   added.push(await addActiveFires(map, maplibregl));
   // Panel order: most important first within each group.
-  const order = ['active-fires', 'hotspots', 'fires', 'funding', 'friendship-centres', 'border', 'highways'];
+  const order = ['active-fires', 'hotspots', 'fires', 'floods', 'funding', 'friendship-centres', 'border', 'highways'];
   const defs = added.filter(Boolean).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
   for (const def of defs) addToggle(def);
   // Allow a little zoom-out past the province, but not to the whole continent.

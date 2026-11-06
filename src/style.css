@@ -76,3 +76,9 @@ button { font: inherit; padding: 4px 10px; border: 1px solid var(--border); bord
 .sources summary { cursor: pointer; font-weight: 600; }
 .sources ul { padding-left: 16px; margin: 8px 0 0; }
 .sources li { margin-bottom: 6px; }
+
+/* Flood pop-ups can list several satellite images of the same flood. */
+.swatch-fill { display: inline-block; width: 14px; height: 10px; box-sizing: border-box; flex: none; opacity: 0.7; }
+.popup-scroll { max-height: 220px; overflow-y: auto; margin-top: 4px; }
+.popup-scroll hr { border: 0; border-top: 1px solid #e3e6ea; margin: 6px 0; }
+.popup-scroll a { font-size: 12px; }
