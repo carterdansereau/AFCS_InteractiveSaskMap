@@ -35,6 +35,14 @@ export const FIRES = {
 
 };
 
+// Flood extents from Natural Resources Canada's "Floods in Canada - Archive" (satellite flood maps made
+// for emergency response), clipped to Saskatchewan by scripts/fetch-floods.mjs. Follows the year slider.
+export const FLOODS = {
+  url: 'data/floods.geojson',
+  color: '#2b7bba',
+  outline: '#08306b',
+};
+
 export const VECTOR_LAYERS = [
   {
     id: 'friendship-centres',
