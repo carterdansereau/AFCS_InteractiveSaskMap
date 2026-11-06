@@ -25,6 +25,15 @@ const json = await res.json();
 if (!res.ok || json.error) throw new Error(JSON.stringify(json.error ?? res.status));
 if (json.exceededTransferLimit) throw new Error('More events than one request returns; add paging.');
 
+// Known slips in NRCan's summaries, corrected with a note so the change is visible.
+const CORRECTIONS = [['Red River First Nation', 'Red Earth Cree Nation [NRCan\'s summary says "Red River First Nation"]']];
+const fixSummary = (text) => {
+  // Summaries start with "This event happened in N location(s); ".
+  let s = text.replace(/^This event happened in \d+ location\(s\);\s*/, '').replace(/\.(?=[A-Z])/g, '. ');
+  for (const [from, to] of CORRECTIONS) s = s.replace(from, to);
+  return s;
+};
+
 const isDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s ?? '');
 const yesNo = (s) => (s === 'yes' ? 'Yes' : s === 'no' ? 'No' : null);
 const features = [];
@@ -43,8 +52,7 @@ for (const { attributes: a, geometry } of json.features) {
         cause: CAUSES[a.flood_cause] ?? a.flood_cause,
         evacuation: yesNo(a.evacuation),
         deaths: yesNo(a.death),
-        // Summaries start with "This event happened in N location(s); ".
-        summary: (a.event_summary ?? '').replace(/^This event happened in \d+ location\(s\);\s*/, '').replace(/\.(?=[A-Z])/g, '. '),
+        summary: fixSummary(a.event_summary ?? ''),
         source: a.source,
         rain_map: a.precipitation_analysis_url?.startsWith('http') ? a.precipitation_analysis_url : null,
       },

@@ -1,4 +1,4 @@
-import { FUNDING } from './config.js';
+import { FEATURES, FUNDING } from './config.js';
 import { onYears } from './years.js';
 import { notice } from './util.js';
 
@@ -63,7 +63,7 @@ export function addFunding(map, maplibregl, records, centres) {
   map.on('mouseenter', 'friendship-centres', () => (map.getCanvas().style.cursor = 'pointer'));
   map.on('mouseleave', 'friendship-centres', () => (map.getCanvas().style.cursor = ''));
 
-  if (!records?.length) return null;
+  if (!records?.length || !FEATURES.fundingCircles) return null;
 
   map.addSource('funding', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
   // Opaque white disc under the tinted circle so the fire weather colours don't show through it.
