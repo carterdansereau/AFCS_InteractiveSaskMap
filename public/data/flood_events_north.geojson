@@ -18,18 +18,18 @@
     "end": null,
     "cause": "Heavy rain",
     "evacuation": "Yes",
-    "summary": "Record water levels on Lac La Ronge and record flows on the Montreal River. The Lac La Ronge Indian Band and the Village of Air Ronge declared local states of emergency, and people were evacuated from Montreal Lake Cree Nation and Timber Bay as water covered local roads.",
+    "summary": "Lac La Ronge rose to a record high, the record that stood until 2020, with record flows on the Montreal River. Flooded roads forced evacuations at Montreal Lake Cree Nation and Timber Bay.",
     "place": "La Ronge / Air Ronge",
     "deaths": null,
     "curated": 1,
     "sources": [
      {
-      "title": "MBC Radio: Flood-waters swell near La Ronge, Montreal Lake",
-      "url": "https://www.mbcradio.com/?p=10130"
+      "title": "MBC Radio, 2011: Montreal Lake partially evacuates due to flooding",
+      "url": "https://www.mbcradio.com/?p=10153"
      },
      {
-      "title": "MBC Radio: Montreal Lake partially evacuates due to flooding",
-      "url": "https://www.mbcradio.com/?p=10153"
+      "title": "National Observer, August 20, 2020: Threat from record-breaking water levels starts to let up",
+      "url": "https://www.nationalobserver.com/2020/08/20/news/threat-record-breaking-water-levels-starts-let"
      }
     ],
     "when": "Late July to August 2011"
@@ -51,18 +51,18 @@
     "end": null,
     "cause": "Heavy rain",
     "evacuation": "Yes",
-    "summary": "Record water levels on Lac La Ronge and record flows on the Montreal River. The Lac La Ronge Indian Band and the Village of Air Ronge declared local states of emergency, and people were evacuated from Montreal Lake Cree Nation and Timber Bay as water covered local roads.",
+    "summary": "Lac La Ronge rose to a record high, the record that stood until 2020, with record flows on the Montreal River. Flooded roads forced evacuations at Montreal Lake Cree Nation and Timber Bay.",
     "place": "Montreal Lake",
     "deaths": null,
     "curated": 1,
     "sources": [
      {
-      "title": "MBC Radio: Flood-waters swell near La Ronge, Montreal Lake",
-      "url": "https://www.mbcradio.com/?p=10130"
+      "title": "MBC Radio, 2011: Montreal Lake partially evacuates due to flooding",
+      "url": "https://www.mbcradio.com/?p=10153"
      },
      {
-      "title": "MBC Radio: Montreal Lake partially evacuates due to flooding",
-      "url": "https://www.mbcradio.com/?p=10153"
+      "title": "National Observer, August 20, 2020: Threat from record-breaking water levels starts to let up",
+      "url": "https://www.nationalobserver.com/2020/08/20/news/threat-record-breaking-water-levels-starts-let"
      }
     ],
     "when": "Late July to August 2011"
@@ -84,18 +84,18 @@
     "end": null,
     "cause": "Heavy rain",
     "evacuation": "Yes",
-    "summary": "Record water levels on Lac La Ronge and record flows on the Montreal River. The Lac La Ronge Indian Band and the Village of Air Ronge declared local states of emergency, and people were evacuated from Montreal Lake Cree Nation and Timber Bay as water covered local roads.",
+    "summary": "Lac La Ronge rose to a record high, the record that stood until 2020, with record flows on the Montreal River. Flooded roads forced evacuations at Montreal Lake Cree Nation and Timber Bay.",
     "place": "Timber Bay",
     "deaths": null,
     "curated": 1,
     "sources": [
      {
-      "title": "MBC Radio: Flood-waters swell near La Ronge, Montreal Lake",
-      "url": "https://www.mbcradio.com/?p=10130"
+      "title": "MBC Radio, 2011: Montreal Lake partially evacuates due to flooding",
+      "url": "https://www.mbcradio.com/?p=10153"
      },
      {
-      "title": "MBC Radio: Montreal Lake partially evacuates due to flooding",
-      "url": "https://www.mbcradio.com/?p=10153"
+      "title": "National Observer, August 20, 2020: Threat from record-breaking water levels starts to let up",
+      "url": "https://www.nationalobserver.com/2020/08/20/news/threat-record-breaking-water-levels-starts-let"
      }
     ],
     "when": "Late July to August 2011"
@@ -117,18 +117,22 @@
     "end": null,
     "cause": "Heavy rain",
     "evacuation": null,
-    "summary": "Buffalo Narrows received 111.8 mm of rain in one day, most of it within 12 hours; the Water Security Agency called it more than a 1-in-100-year event. Water rose up to homes and swamped Buffalo Narrows park, and the agency warned of rising flows on the Churchill River upstream of Patuanak.",
+    "summary": "Buffalo Narrows received 111.8 mm of rain in one day, most of it within 12 hours, which the Water Security Agency called more than a 1-in-100-year event. Water rose up to homes and swamped Buffalo Narrows park, and the agency warned of rising flows on the Churchill River upstream of Patuanak.",
     "place": "Buffalo Narrows",
     "deaths": null,
     "curated": 1,
     "sources": [
      {
-      "title": "CBC News, July 2017",
+      "title": "CBC News, July 2017: Buffalo Narrows rainfall",
       "url": "https://www.cbc.ca/1.4221311"
      },
      {
-      "title": "Canadian Underwriter (Canadian Press), July 26, 2017",
+      "title": "Canadian Underwriter (Canadian Press), July 26, 2017: Northern Saskatchewan village hit with buckets of water from record rain",
       "url": "https://www.canadianunderwriter.ca/insurance/northern-saskatchewan-village-hit-buckets-water-record-rain-1004117982/"
+     },
+     {
+      "title": "Global News, July 2017: Buffalo Narrows region dealing with 1-in-100-year rainfall",
+      "url": "https://globalnews.ca/news/3624010/buffalo-narrows-region-dealing-with-1-in-100-year-rainfall/"
      }
     ],
     "when": "July 24, 2017"
@@ -150,22 +154,26 @@
     "end": null,
     "cause": "Heavy rain",
     "evacuation": null,
-    "summary": "Summer rain pushed northern lakes to record highs. Lac La Ronge rose above its 2011 record, and on July 29 the Water Security Agency reclassified the La Ronge Dam, upstream of Stanley Mission, as a potential dam failure and sandbagged it. Sandy Bay broke its 2005 record.",
+    "summary": "A very wet June and July pushed northern lakes and rivers to record highs. Lac La Ronge peaked above its 2011 record, and on July 29 the Water Security Agency reclassified the La Ronge Dam, upstream of Stanley Mission, as a potential dam failure and sandbagged it. The Churchill River near Sandy Bay crested above its 2005 record in early August.",
     "place": "La Ronge / Air Ronge",
     "deaths": null,
     "curated": 1,
     "sources": [
      {
-      "title": "National Observer, July 29, 2020",
+      "title": "National Observer, July 29, 2020: More flooding on top of flooding, potential failure of northeast Saskatchewan dam",
       "url": "https://nationalobserver.com/2020/07/29/news/more-flooding-top-flooding-potential-failure-northeast-saskatchewan-dam"
      },
      {
-      "title": "National Observer, August 20, 2020",
-      "url": "https://nationalobserver.com/2020/08/20/news/threat-record-breaking-water-levels-starts-let"
+      "title": "National Observer, August 20, 2020: Threat from record-breaking water levels starts to let up",
+      "url": "https://www.nationalobserver.com/2020/08/20/news/threat-record-breaking-water-levels-starts-let"
      },
      {
-      "title": "Water Security Agency: Northern Saskatchewan summer high water update, Sept. 11, 2020",
-      "url": "https://www.wsask.ca/?p=2495"
+      "title": "larongeNOW, July 31, 2020: Reindeer River, Churchill River near Sandy Bay exceed historical highs",
+      "url": "https://larongenow.com/2020/07/31/reindeer-river-churchill-river-near-sandy-bay-exceed-historical-highs/"
+     },
+     {
+      "title": "Water Security Agency: Northern Saskatchewan Summer High Water Update, August 28, 2020",
+      "url": "https://www.wsask.ca/advisories/northern-saskatchewan-summer-high-water-update-august-28-2020/"
      }
     ],
     "when": "Summer 2020 (July to September)"
@@ -187,22 +195,26 @@
     "end": null,
     "cause": "Heavy rain",
     "evacuation": null,
-    "summary": "Summer rain pushed northern lakes to record highs. Lac La Ronge rose above its 2011 record, and on July 29 the Water Security Agency reclassified the La Ronge Dam, upstream of Stanley Mission, as a potential dam failure and sandbagged it. Sandy Bay broke its 2005 record.",
+    "summary": "A very wet June and July pushed northern lakes and rivers to record highs. Lac La Ronge peaked above its 2011 record, and on July 29 the Water Security Agency reclassified the La Ronge Dam, upstream of Stanley Mission, as a potential dam failure and sandbagged it. The Churchill River near Sandy Bay crested above its 2005 record in early August.",
     "place": "Stanley Mission",
     "deaths": null,
     "curated": 1,
     "sources": [
      {
-      "title": "National Observer, July 29, 2020",
+      "title": "National Observer, July 29, 2020: More flooding on top of flooding, potential failure of northeast Saskatchewan dam",
       "url": "https://nationalobserver.com/2020/07/29/news/more-flooding-top-flooding-potential-failure-northeast-saskatchewan-dam"
      },
      {
-      "title": "National Observer, August 20, 2020",
-      "url": "https://nationalobserver.com/2020/08/20/news/threat-record-breaking-water-levels-starts-let"
+      "title": "National Observer, August 20, 2020: Threat from record-breaking water levels starts to let up",
+      "url": "https://www.nationalobserver.com/2020/08/20/news/threat-record-breaking-water-levels-starts-let"
      },
      {
-      "title": "Water Security Agency: Northern Saskatchewan summer high water update, Sept. 11, 2020",
-      "url": "https://www.wsask.ca/?p=2495"
+      "title": "larongeNOW, July 31, 2020: Reindeer River, Churchill River near Sandy Bay exceed historical highs",
+      "url": "https://larongenow.com/2020/07/31/reindeer-river-churchill-river-near-sandy-bay-exceed-historical-highs/"
+     },
+     {
+      "title": "Water Security Agency: Northern Saskatchewan Summer High Water Update, August 28, 2020",
+      "url": "https://www.wsask.ca/advisories/northern-saskatchewan-summer-high-water-update-august-28-2020/"
      }
     ],
     "when": "Summer 2020 (July to September)"
@@ -224,22 +236,26 @@
     "end": null,
     "cause": "Heavy rain",
     "evacuation": null,
-    "summary": "Summer rain pushed northern lakes to record highs. Lac La Ronge rose above its 2011 record, and on July 29 the Water Security Agency reclassified the La Ronge Dam, upstream of Stanley Mission, as a potential dam failure and sandbagged it. Sandy Bay broke its 2005 record.",
+    "summary": "A very wet June and July pushed northern lakes and rivers to record highs. Lac La Ronge peaked above its 2011 record, and on July 29 the Water Security Agency reclassified the La Ronge Dam, upstream of Stanley Mission, as a potential dam failure and sandbagged it. The Churchill River near Sandy Bay crested above its 2005 record in early August.",
     "place": "Sandy Bay",
     "deaths": null,
     "curated": 1,
     "sources": [
      {
-      "title": "National Observer, July 29, 2020",
+      "title": "National Observer, July 29, 2020: More flooding on top of flooding, potential failure of northeast Saskatchewan dam",
       "url": "https://nationalobserver.com/2020/07/29/news/more-flooding-top-flooding-potential-failure-northeast-saskatchewan-dam"
      },
      {
-      "title": "National Observer, August 20, 2020",
-      "url": "https://nationalobserver.com/2020/08/20/news/threat-record-breaking-water-levels-starts-let"
+      "title": "National Observer, August 20, 2020: Threat from record-breaking water levels starts to let up",
+      "url": "https://www.nationalobserver.com/2020/08/20/news/threat-record-breaking-water-levels-starts-let"
      },
      {
-      "title": "Water Security Agency: Northern Saskatchewan summer high water update, Sept. 11, 2020",
-      "url": "https://www.wsask.ca/?p=2495"
+      "title": "larongeNOW, July 31, 2020: Reindeer River, Churchill River near Sandy Bay exceed historical highs",
+      "url": "https://larongenow.com/2020/07/31/reindeer-river-churchill-river-near-sandy-bay-exceed-historical-highs/"
+     },
+     {
+      "title": "Water Security Agency: Northern Saskatchewan Summer High Water Update, August 28, 2020",
+      "url": "https://www.wsask.ca/advisories/northern-saskatchewan-summer-high-water-update-august-28-2020/"
      }
     ],
     "when": "Summer 2020 (July to September)"
@@ -261,18 +277,22 @@
     "end": null,
     "cause": "Heavy rain",
     "evacuation": null,
-    "summary": "High flows on the Beaver River peaked near Beauval, and Lac Île-à-la-Crosse reached peak flood levels (about 421.1 m) in late July. Île-à-la-Crosse used dikes and sandbags with provincial agencies; levels stayed above normal into the fall.",
+    "summary": "High flows on the Beaver River peaked near Beauval in early July. Lac Île-à-la-Crosse peaked at about 421.1 m around July 28, and the village sandbagged and built berms. The Water Security Agency expected levels to stay above normal into the winter.",
     "place": "Île-à-la-Crosse",
     "deaths": null,
     "curated": 1,
     "sources": [
      {
-      "title": "meadowlakeNOW: Île-à-la-Crosse, Beauval and area to experience increased water flow",
-      "url": "https://meadowlakenow.com/?p=454498"
+      "title": "paNOW, July 9, 2020: River expected to rise by 40 to 50 cm Friday",
+      "url": "https://panow.com/2020/07/09/river-expected-to-rise-by-40-to-50-cm-friday/"
      },
      {
-      "title": "Water Security Agency: Northern Saskatchewan summer high water update, Sept. 11, 2020",
-      "url": "https://www.wsask.ca/?p=2495"
+      "title": "meadowlakeNOW, July 22, 2020: Northern mayors believe permanent berms needed as water rises",
+      "url": "https://meadowlakenow.com/2020/07/22/northern-mayors-believe-permanent-berms-needed-as-water-rises/"
+     },
+     {
+      "title": "Water Security Agency: Northern Saskatchewan Summer High Water Update, July 24, 2020",
+      "url": "https://www.wsask.ca/advisories/northern-saskatchewan-summer-high-water-update-july-24-2020/"
      }
     ],
     "when": "Summer 2020 (peak in late July)"
@@ -294,18 +314,22 @@
     "end": null,
     "cause": "Heavy rain",
     "evacuation": null,
-    "summary": "High flows on the Beaver River peaked near Beauval, and Lac Île-à-la-Crosse reached peak flood levels (about 421.1 m) in late July. Île-à-la-Crosse used dikes and sandbags with provincial agencies; levels stayed above normal into the fall.",
+    "summary": "High flows on the Beaver River peaked near Beauval in early July. Lac Île-à-la-Crosse peaked at about 421.1 m around July 28, and the village sandbagged and built berms. The Water Security Agency expected levels to stay above normal into the winter.",
     "place": "Beauval",
     "deaths": null,
     "curated": 1,
     "sources": [
      {
-      "title": "meadowlakeNOW: Île-à-la-Crosse, Beauval and area to experience increased water flow",
-      "url": "https://meadowlakenow.com/?p=454498"
+      "title": "paNOW, July 9, 2020: River expected to rise by 40 to 50 cm Friday",
+      "url": "https://panow.com/2020/07/09/river-expected-to-rise-by-40-to-50-cm-friday/"
      },
      {
-      "title": "Water Security Agency: Northern Saskatchewan summer high water update, Sept. 11, 2020",
-      "url": "https://www.wsask.ca/?p=2495"
+      "title": "meadowlakeNOW, July 22, 2020: Northern mayors believe permanent berms needed as water rises",
+      "url": "https://meadowlakenow.com/2020/07/22/northern-mayors-believe-permanent-berms-needed-as-water-rises/"
+     },
+     {
+      "title": "Water Security Agency: Northern Saskatchewan Summer High Water Update, July 24, 2020",
+      "url": "https://www.wsask.ca/advisories/northern-saskatchewan-summer-high-water-update-july-24-2020/"
      }
     ],
     "when": "Summer 2020 (peak in late July)"
