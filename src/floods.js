@@ -30,26 +30,63 @@ function popupHtml(features) {
   return `${title}<div class="popup-scroll">${rows.join('<hr>')}</div>`;
 }
 
+function eventPopupHtml(features) {
+  const seen = new Set();
+  const items = features
+    .map((f) => f.properties)
+    .filter((p) => !seen.has(p.id) && seen.add(p.id))
+    .sort((a, b) => b.year - a.year);
+  const rows = items.map((p) => {
+    const when = p.start ? fmtDate(p.start) + (p.end && p.end !== p.start ? ` to ${fmtDate(p.end)}` : '') : String(p.year);
+    const cells = [
+      ['When', when],
+      ['Cause', p.cause],
+      ['Evacuations', p.evacuation],
+      ['Deaths', p.deaths],
+    ].filter(([, v]) => v != null && v !== '');
+    const rain = p.rain_map ? `<a href="${p.rain_map}" target="_blank" rel="noopener">Rainfall map (NRCan)</a>` : '';
+    return `<table>${cells.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</table><p class="popup-text">${p.summary}</p>${rain}`;
+  });
+  const title = `<strong>Flood event${items.length > 1 ? `s (${items.length})` : ''}</strong>`;
+  return `${title}<div class="popup-scroll">${rows.join('<hr>')}</div>`;
+}
+
 export async function addFloods(map, maplibregl, beforeId) {
-  const data = await loadGeoJSON(FLOODS.url);
-  if (!data) {
-    notice(`Floods: no data at <code>public/${FLOODS.url}</code> yet. Run <code>npm run floods</code>.`);
+  const [data, events] = await Promise.all([loadGeoJSON(FLOODS.url), loadGeoJSON(FLOODS.eventsUrl)]);
+  if (!data || !events) {
+    notice(`Floods: missing <code>public/${FLOODS.url}</code> or <code>public/${FLOODS.eventsUrl}</code>. Run <code>npm run floods</code>.`);
     return null;
   }
   map.addSource('floods', { type: 'geojson', data });
+  map.addSource('flood-events', { type: 'geojson', data: events });
   map.addLayer({ id: 'floods', type: 'fill', source: 'floods', paint: { 'fill-color': FLOODS.color, 'fill-opacity': 0.45 } }, beforeId);
   map.addLayer({ id: 'floods-outline', type: 'line', source: 'floods', paint: { 'line-color': FLOODS.outline, 'line-width': 0.8 } }, beforeId);
+  // Reported flood events: one point per affected community.
+  map.addLayer(
+    {
+      id: 'flood-events',
+      type: 'circle',
+      source: 'flood-events',
+      // A ring, so it doesn't look like a Friendship Centre (solid blue dot).
+      paint: { 'circle-radius': 5, 'circle-color': '#ffffff', 'circle-stroke-color': FLOODS.eventColor, 'circle-stroke-width': 3 },
+    },
+    beforeId,
+  );
 
   // Flooded areas are often thin strips along rivers, so clicks and hovers count anything within a few pixels.
   const near = ({ x, y }) => [[x - 5, y - 5], [x + 5, y + 5]];
-  const hits = (point) => (map.getLayoutProperty('floods', 'visibility') === 'none' ? [] : map.queryRenderedFeatures(near(point), { layers: ['floods', 'floods-outline'] }));
+  const visible = () => map.getLayoutProperty('floods', 'visibility') !== 'none';
+  const eventHits = (point) => (visible() ? map.queryRenderedFeatures(near(point), { layers: ['flood-events'] }) : []);
+  const hits = (point) => (visible() ? map.queryRenderedFeatures(near(point), { layers: ['flood-events', 'floods', 'floods-outline'] }) : []);
   const onTop = ['fires', 'friendship-centres', 'active-fires'];
   map.on('click', (e) => {
-    const features = hits(e.point);
-    if (!features.length) return;
     // Fires, centres and active fires sit on top and have their own pop-ups.
     if (map.queryRenderedFeatures(e.point, { layers: onTop.filter((id) => map.getLayer(id)) }).length) return;
-    new maplibregl.Popup({ maxWidth: '300px', focusAfterOpen: false }).setLngLat(e.lngLat).setHTML(popupHtml(features)).addTo(map);
+    const points = eventHits(e.point);
+    const areas = points.length ? [] : hits(e.point);
+    if (!points.length && !areas.length) return;
+    const html = points.length ? eventPopupHtml(points) : popupHtml(areas);
+    new maplibregl.Popup({ maxWidth: '300px', focusAfterOpen: false }).setLngLat(e.lngLat).setHTML(html).addTo(map);
   });
   let hovering = false;
   map.on('mousemove', (e) => {
@@ -66,20 +103,24 @@ export async function addFloods(map, maplibregl, beforeId) {
     const filter = ['all', ['>=', ['get', 'year'], y0], ['<=', ['get', 'year'], y1]];
     map.setFilter('floods', filter);
     map.setFilter('floods-outline', filter);
-    const shown = data.features.filter((f) => f.properties.year >= y0 && f.properties.year <= y1);
-    const years = [...new Set(shown.map((f) => f.properties.year))];
-    count.textContent = shown.length
-      ? `${shown.length} satellite flood map${shown.length === 1 ? '' : 's'} (${years.join(', ')})`
-      : 'No floods mapped in these years';
+    map.setFilter('flood-events', filter);
+    const inRange = (f) => f.properties.year >= y0 && f.properties.year <= y1;
+    const nEvents = new Set(events.features.filter(inRange).map((f) => f.properties.id)).size;
+    const nMaps = data.features.filter(inRange).length;
+    const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+    count.textContent = nEvents || nMaps ? `${plural(nEvents, 'flood event')}, ${plural(nMaps, 'satellite flood map')}` : 'No floods recorded in these years';
   });
 
   return {
     id: 'floods',
-    label: 'Historical floods (satellite-mapped)',
+    label: 'Historical floods',
     group: 'historical',
-    layers: ['floods', 'floods-outline'],
-    note: 'Only floods Natural Resources Canada mapped by satellite for emergency response, so many smaller or local floods are not included. The 2011 maps also show permanent lakes and rivers.',
-    legend: [{ type: 'fill', color: FLOODS.color, stroke: FLOODS.outline, label: 'Flooded area' }],
+    layers: ['floods', 'floods-outline', 'flood-events'],
+    note: 'Major floods recorded by Natural Resources Canada. Smaller or local floods, and most high water on northern lakes, are not included. The 2011 satellite maps also show permanent lakes and rivers.',
+    legend: [
+      { type: 'circle', color: '#ffffff', radius: 6, stroke: FLOODS.eventColor, label: 'Reported flood event (click for details)' },
+      { type: 'fill', color: FLOODS.color, stroke: FLOODS.outline, label: 'Flooded area seen by satellite' },
+    ],
     controls: count,
   };
 }

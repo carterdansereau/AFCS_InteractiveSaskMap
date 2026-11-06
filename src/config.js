@@ -39,6 +39,9 @@ export const FIRES = {
 // for emergency response), clipped to Saskatchewan by scripts/fetch-floods.mjs. Follows the year slider.
 export const FLOODS = {
   url: 'data/floods.geojson',
+  // NRCan Historical Flood Events, one point per affected community (scripts/fetch-flood-events.mjs).
+  eventsUrl: 'data/flood_events.geojson',
+  eventColor: '#08306b',
   color: '#2b7bba',
   outline: '#08306b',
 };
