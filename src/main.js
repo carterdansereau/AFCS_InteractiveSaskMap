@@ -4,7 +4,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import 'nouislider/dist/nouislider.css';
 import './style.css';
-import { MAP, VECTOR_LAYERS } from './config.js';
+import { FEATURES, MAP, VECTOR_LAYERS } from './config.js';
 import { addFires } from './fires.js';
 import { addFloods } from './floods.js';
 import { addWeather } from './weather.js';
@@ -14,6 +14,11 @@ import { loadGeoJSON, notice } from './util.js';
 import { highwayControls } from './highways.js';
 
 maplibregl.setWorkerUrl(workerUrl);
+
+// Drop Data sources entries for features that are switched off in FEATURES.
+document.querySelectorAll('[data-feature]').forEach((el) => {
+  if (FEATURES[el.dataset.feature] === false) el.remove();
+});
 
 // Keep the province clear of the side panel on wide screens.
 function fitPadding() {
@@ -128,7 +133,7 @@ map.on('load', async () => {
   if (highways) highways.controls = highwayControls(map, 'highways');
   const funding = await loadFunding();
   // Flood areas sit above highways and the border but under the fire circles.
-  added.push(await addFloods(map, maplibregl));
+  if (FEATURES.floods) added.push(await addFloods(map, maplibregl));
   added.push(await addFires(map, maplibregl, funding ? fundingYears(funding) : []));
   const centresDef = await addVectorLayer(centres);
   added.push(centresDef);
