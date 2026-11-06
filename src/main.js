@@ -127,12 +127,14 @@ map.on('load', async () => {
   const highways = added.find((d) => d?.id === 'highways');
   if (highways) highways.controls = highwayControls(map, 'highways');
   const funding = await loadFunding();
-  // Floods sit above highways and the border but under the fire circles.
+  // Flood areas sit above highways and the border but under the fire circles.
   added.push(await addFloods(map, maplibregl));
   added.push(await addFires(map, maplibregl, funding ? fundingYears(funding) : []));
   const centresDef = await addVectorLayer(centres);
   added.push(centresDef);
   if (centresDef) added.push(addFunding(map, maplibregl, funding, centresDef.data));
+  // Flood event rings go above fires and funding circles, just under the Friendship Centre dots they circle.
+  if (map.getLayer('flood-events') && map.getLayer('friendship-centres')) map.moveLayer('flood-events', 'friendship-centres');
   addWeather(map, map.getLayer('highways') ? 'highways' : undefined);
   added.push(addHotspots(map, map.getLayer('fires') ? 'fires' : undefined));
   added.push(await addActiveFires(map, maplibregl));

@@ -117,6 +117,13 @@ export const HIGHWAYS = {
   mainClasses: [1, 2, 13],
 };
 
+// Feature flags: switch parts of the map on or off without deleting any code or data.
+export const FEATURES = {
+  // Funding circles around Friendship Centres (and their panel toggle). Hidden for now, 2026-11-06.
+  // Funding still shows in a centre's pop-up. Set to true to bring the circles back.
+  fundingCircles: false,
+};
+
 // Funding per centre per year, converted from public/data/funding.xlsx at build time
 // (scripts/funding-to-json.mjs). Circle area is proportional to dollars.
 export const FUNDING = {
