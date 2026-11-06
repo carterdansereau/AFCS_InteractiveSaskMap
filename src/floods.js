@@ -37,7 +37,7 @@ function eventPopupHtml(features) {
     .filter((p) => !seen.has(p.id) && seen.add(p.id))
     .sort((a, b) => b.year - a.year);
   const rows = items.map((p) => {
-    const when = p.start ? fmtDate(p.start) + (p.end && p.end !== p.start ? ` to ${fmtDate(p.end)}` : '') : String(p.year);
+    const when = p.when ? p.when : p.start ? fmtDate(p.start) + (p.end && p.end !== p.start ? ` to ${fmtDate(p.end)}` : '') : String(p.year);
     const cells = [
       ['When', when],
       ['Cause', p.cause],
@@ -45,19 +45,25 @@ function eventPopupHtml(features) {
       ['Deaths', p.deaths],
     ].filter(([, v]) => v != null && v !== '');
     const rain = p.rain_map ? `<a href="${p.rain_map}" target="_blank" rel="noopener">Rainfall map (NRCan)</a>` : '';
-    return `<table>${cells.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</table><p class="popup-text">${p.summary}</p>${rain}`;
+    // MapLibre hands nested properties back as JSON text.
+    const sources = typeof p.sources === 'string' ? JSON.parse(p.sources) : (p.sources ?? []);
+    const links = sources.length ? `<div class="hint">Sources:</div><ul class="popup-sources">${sources.map((s) => `<li><a href="${s.url}" target="_blank" rel="noopener">${s.title}</a></li>`).join('')}</ul>` : '';
+    const place = p.place ? `<div class="hint">${p.place}</div>` : '';
+    return `${place}<table>${cells.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</table><p class="popup-text">${p.summary}</p>${rain}${links}`;
   });
   const title = `<strong>Flood event${items.length > 1 ? `s (${items.length})` : ''}</strong>`;
   return `${title}<div class="popup-scroll">${rows.join('<hr>')}</div>`;
 }
 
 export async function addFloods(map, maplibregl, beforeId) {
-  const [data, events] = await Promise.all([loadGeoJSON(FLOODS.url), loadGeoJSON(FLOODS.eventsUrl)]);
+  const [data, events, north] = await Promise.all([loadGeoJSON(FLOODS.url), loadGeoJSON(FLOODS.eventsUrl), loadGeoJSON(FLOODS.northUrl)]);
   if (!data || !events) {
     notice(`Floods: missing <code>public/${FLOODS.url}</code> or <code>public/${FLOODS.eventsUrl}</code>. Run <code>npm run floods</code>.`);
     return null;
   }
   map.addSource('floods', { type: 'geojson', data });
+  // Northern high-water events (hand-maintained, with sources) share the event layer.
+  if (north) events.features.push(...north.features);
   map.addSource('flood-events', { type: 'geojson', data: events });
   map.addLayer({ id: 'floods', type: 'fill', source: 'floods', paint: { 'fill-color': FLOODS.color, 'fill-opacity': 0.45 } }, beforeId);
   map.addLayer({ id: 'floods-outline', type: 'line', source: 'floods', paint: { 'line-color': FLOODS.outline, 'line-width': 0.8 } }, beforeId);
@@ -67,8 +73,8 @@ export async function addFloods(map, maplibregl, beforeId) {
       id: 'flood-events',
       type: 'circle',
       source: 'flood-events',
-      // A ring, so it doesn't look like a Friendship Centre (solid blue dot).
-      paint: { 'circle-radius': 5, 'circle-color': '#ffffff', 'circle-stroke-color': FLOODS.eventColor, 'circle-stroke-width': 3 },
+      // An open ring: it doesn't look like a Friendship Centre, and it circles the centre's dot when a flood hit that town.
+      paint: { 'circle-radius': 10, 'circle-opacity': 0, 'circle-stroke-color': FLOODS.eventColor, 'circle-stroke-width': 3 },
     },
     beforeId,
   );
@@ -116,9 +122,9 @@ export async function addFloods(map, maplibregl, beforeId) {
     label: 'Historical floods',
     group: 'historical',
     layers: ['floods', 'floods-outline', 'flood-events'],
-    note: 'Major floods recorded by Natural Resources Canada. Smaller or local floods, and most high water on northern lakes, are not included. The 2011 satellite maps also show permanent lakes and rivers.',
+    note: 'Major floods recorded by Natural Resources Canada, plus northern high-water events from news and Water Security Agency reports. Smaller or local floods are not included. The 2011 satellite maps also show permanent lakes and rivers.',
     legend: [
-      { type: 'circle', color: '#ffffff', radius: 6, stroke: FLOODS.eventColor, label: 'Reported flood event (click for details)' },
+      { type: 'circle', color: 'transparent', radius: 7, stroke: FLOODS.eventColor, label: 'Reported flood event (click for details)' },
       { type: 'fill', color: FLOODS.color, stroke: FLOODS.outline, label: 'Flooded area seen by satellite' },
     ],
     controls: count,

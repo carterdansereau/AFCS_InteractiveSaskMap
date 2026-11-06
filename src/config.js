@@ -41,6 +41,8 @@ export const FLOODS = {
   url: 'data/floods.geojson',
   // NRCan Historical Flood Events, one point per affected community (scripts/fetch-flood-events.mjs).
   eventsUrl: 'data/flood_events.geojson',
+  // Northern high-water events missing from NRCan's database; written by hand, each with source links.
+  northUrl: 'data/flood_events_north.geojson',
   eventColor: '#08306b',
   color: '#2b7bba',
   outline: '#08306b',
